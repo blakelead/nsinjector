@@ -1,0 +1,72 @@
+controller:
+  replicaCount: 1
+  image:
+    repository: blakelead/nsinjector-controller
+    pullPolicy: Always
+    tag: latest
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+  resources: {}
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+injectors:
+  - name: injector1
+    namespaces:
+      - dev-*
+    resources:
+      - |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: Role
+        metadata:
+          name: dev-role
+        rules:
+          - apiGroups: ["*"]
+            resources: ["*"]
+            verbs: ["*"]
+          - apiGroups: [""]
+            resources: ["namespaces"]
+            verbs: ["list", "get"]
+      - |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: dev-rolebinding
+        subjects:
+        - kind: User
+          name: dev
+        roleRef:
+          kind: Role
+          name: dev-role
+          apiGroup: rbac.authorization.k8s.io
+
+  - name: injector2
+    namespaces:
+      - stg-*
+    resources:
+      - |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: Role
+        metadata:
+          name: stg-role
+        rules:
+          - apiGroups: ["*"]
+            resources: ["*"]
+            verbs: ["list", "get", "watch"]
+          - apiGroups: [""]
+            resources: ["namespaces"]
+            verbs: ["list", "get"]
+      - |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: stg-rolebinding
+        subjects:
+        - kind: User
+          name: stg
+        roleRef:
+          kind: Role
+          name: stg-role
+          apiGroup: rbac.authorization.k8s.io

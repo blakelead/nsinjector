@@ -1,0 +1,18 @@
+{{- range $injector := .Values.injectors }}
+kind: NamespaceResourcesInjector
+apiVersion: blakelead.com/v1alpha1
+metadata:
+  name: {{ $injector.name }}
+spec:
+  namespaces:
+{{- range $injector.namespaces }}
+  - |-
+{{ . | indent 4 }}
+{{- end }}
+  resources:
+{{- range  $injector.resources }}
+  - |-
+{{ . | indent 4 }}
+{{- end }}
+---
+{{ end }}

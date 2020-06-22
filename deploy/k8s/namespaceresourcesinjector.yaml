@@ -1,0 +1,35 @@
+kind: NamespaceResourcesInjector
+apiVersion: blakelead.com/v1alpha1
+metadata:
+  name: nri-test
+spec:
+  namespaces:
+  - dev-.*
+  resources:
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: dev-role
+    rules:
+      - apiGroups: [""]
+        resources: ["pods","pods/portforward", "services", "deployments", "ingresses"]
+        verbs: ["list", "get"]
+      - apiGroups: [""]
+        resources: ["pods/portforward"]
+        verbs: ["create"]
+      - apiGroups: [""]
+        resources: ["namespaces"]
+        verbs: ["list", "get"]
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: dev-rolebinding
+    subjects:
+    - kind: User
+      name: dev
+    roleRef:
+      kind: Role
+      name: dev-role
+      apiGroup: rbac.authorization.k8s.io
