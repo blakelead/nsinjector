@@ -3,7 +3,7 @@ controller:
   image:
     repository: blakelead/nsinjector-controller
     pullPolicy: Always
-    tag: latest
+    tag: v0.1.0
   podAnnotations: {}
   podSecurityContext: {}
   securityContext: {}
