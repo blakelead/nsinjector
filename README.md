@@ -23,17 +23,47 @@ kubectl apply -f deploy/k8s/nsinjector-controller.yaml
 kubectl apply -f deploy/k8s/namespaceresourcesinjector.yaml
 ```
 
-## More details
+## Example
 
-The controller watches:
+When a namespace starting with `dev-` is created, the following resource will automatically inject a role and rolebinding in it:
 
-- `namespaceresourcesinjector` creation, update or deletion
-- `namespace` creation or deletion
+```yaml
+kind: NamespaceResourcesInjector
+apiVersion: blakelead.com/v1alpha1
+metadata:
+  name: nri-test
+spec:
+  namespaces:
+  - dev-.*
+  resources:
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+      name: dev-role
+    rules:
+      - apiGroups: [""]
+        resources: ["pods","pods/portforward", "services", "deployments", "ingresses"]
+        verbs: ["list", "get"]
+      - apiGroups: [""]
+        resources: ["pods/portforward"]
+        verbs: ["create"]
+      - apiGroups: [""]
+        resources: ["namespaces"]
+        verbs: ["list", "get"]
+  - |
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata:
+      name: dev-rolebinding
+    subjects:
+    - kind: User
+      name: dev
+    roleRef:
+      kind: Role
+      name: dev-role
+      apiGroup: rbac.authorization.k8s.io
+```
 
-When a custom resource `namespaceresourcesinjector` is created or updated, the controller will fetch all namespaces matching `.spec.namespaces` of the `namespaceresourcesinjector` and deploy (or update) `spec.resources` resources in those namespaces (or cluster-wide for cluster-scoped resources).
-
-When a custom resource `namespaceresourcesinjector` is deleted, associated resources will be deleted from matching namespaces.
-
-When a `namespace` is created, it will be checked against existing `namespaceresourcesinjector` and resources will be deployed in it if there's a match.
-
-`namespaceresourcesinjector` keep a reference of matched namespaces in `status.injectedNamespaces`. When a corresponding namespace is deleted, it will be removed from the custom resource status.
+- `namespaces`: can be a full name or a regex
+- `resources`: can be any Kubernetes resources
