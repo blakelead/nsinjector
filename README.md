@@ -65,5 +65,9 @@ spec:
       apiGroup: rbac.authorization.k8s.io
 ```
 
-- `namespaces`: can be a full name or a regex
-- `resources`: can be any Kubernetes resources
+- `namespaces`:  a list of namespace names or regex
+- `resources`: a list of any Kubernetes resources
+
+## Contributing
+
+Although this project is currently used in production, it is relatively young and has not been extensively tested. Suggestions and contributions are therefore very welcome.
