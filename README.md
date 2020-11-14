@@ -1,6 +1,8 @@
 # nsinjector
 
 **nsinjector** is a Kubernetes controller that automatically deploys resources into a namespace when it is created.
+Here's a blog post I wrote about it: [Deploy Kubernetes resources automatically with nsinjector
+](https://blog.blakelead.com/posts/2020/11/12/nsinjector/).
 
 ## How to use it
 
