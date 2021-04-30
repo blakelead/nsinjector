@@ -276,13 +276,13 @@ func (c *Controller) inject(injector *v1alpha1.NamespaceResourcesInjector, names
 			if err != nil {
 				return err
 			}
-			log.Infof("Resource %s from injector %s created", o.GetSelfLink(), injector.GetName())
+			log.Infof("Resource %s/%s in namespace %s from injector %s created", o.GetKind(), o.GetName(), o.GetNamespace(), injector.GetName())
 		} else {
 			o, err := dynamicResource.Update(context.Background(), obj, metav1.UpdateOptions{})
 			if err != nil {
 				return err
 			}
-			log.Infof("Resource %s from injector %s updated", o.GetSelfLink(), injector.GetName())
+			log.Infof("Resource %s/%s in namespace %s from injector %s updated", o.GetKind(), o.GetName(), o.GetNamespace(), injector.GetName())
 		}
 	}
 	return nil
