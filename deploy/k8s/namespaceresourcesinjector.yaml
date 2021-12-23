@@ -5,6 +5,8 @@ metadata:
 spec:
   namespaces:
   - dev-.*
+  excludedNamespaces:
+  - dev-excluded.*
   resources:
   - |
     apiVersion: rbac.authorization.k8s.io/v1

@@ -21,6 +21,11 @@ type NamespaceResourcesInjector struct {
 }
 
 func (nri *NamespaceResourcesInjector) CanInject(namespace string) bool {
+    for _, item := range nri.Spec.ExcludedNamespaces {
+		if match, _ := regexp.MatchString(item, namespace); match {
+			return false
+		}
+	}
 	for _, item := range nri.Spec.Namespaces {
 		if match, _ := regexp.MatchString(item, namespace); match {
 			return true
@@ -40,6 +45,7 @@ func (nri *NamespaceResourcesInjector) Injected(namespace string) bool {
 
 // NamespaceResourcesInjectorSpec is the spec for a NamespaceResourcesInjector resource
 type NamespaceResourcesInjectorSpec struct {
+    ExcludedNamespaces []string `json:"excludedNamespaces"`
 	Namespaces []string `json:"namespaces"`
 	Resources  []string `json:"resources"`
 }

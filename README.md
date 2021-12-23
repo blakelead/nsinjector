@@ -38,6 +38,8 @@ metadata:
 spec:
   namespaces:
   - dev-.*
+  excludedNamespaces:
+  - dev-excluded-.* 
   resources:
   - |
     apiVersion: rbac.authorization.k8s.io/v1
@@ -69,6 +71,7 @@ spec:
 ```
 
 - `namespaces`:  a list of namespace names or regex
+- `excludedNamespaces`: a list of namespace names or regex to be excluded
 - `resources`: a list of any Kubernetes resources
 
 ## Contributing
