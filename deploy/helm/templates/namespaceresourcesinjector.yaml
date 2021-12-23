@@ -9,6 +9,10 @@ spec:
   - |-
 {{ . | indent 4 }}
 {{- end }}
+  excludedNamespaces:
+{{- range $injector.excludedNamespaces }}
+  - |-
+{{ . | indent 4 }}
   resources:
 {{- range  $injector.resources }}
   - |-

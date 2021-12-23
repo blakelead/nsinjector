@@ -27,6 +27,11 @@ spec:
                   type: array
                   items:
                     type: string
+                excludedNamespaces:
+                  description: 'Namespaces is a list of namespaces names or regex that will be excluded to be injected.'
+                  type: array
+                  items:
+                    type: string
                 resources:
                   description: 'Resources is the map of resources to be injected.'
                   type: array

@@ -92,6 +92,11 @@ func (in *NamespaceResourcesInjectorSpec) DeepCopyInto(out *NamespaceResourcesIn
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
+	if in.ExcludedNamespaces != nil {
+		in, out := &in.ExcludedNamespaces, &out.ExcludedNamespaces
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	if in.Resources != nil {
 		in, out := &in.Resources, &out.Resources
 		*out = make([]string, len(*in))
