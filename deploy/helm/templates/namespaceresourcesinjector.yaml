@@ -13,6 +13,7 @@ spec:
 {{- range $injector.excludedNamespaces }}
   - |-
 {{ . | indent 4 }}
+{{- end }}
   resources:
 {{- range  $injector.resources }}
   - |-
