@@ -270,7 +270,7 @@ func (c *Controller) inject(injector *v1alpha1.NamespaceResourcesInjector, names
 				*metav1.NewControllerRef(injector, v1alpha1.SchemeGroupVersion.WithKind("NamespaceResourcesInjector")),
 			},
 		)
-		_, err = dynamicResource.Get(context.Background(), obj.GetName(), metav1.GetOptions{})
+		current, err := dynamicResource.Get(context.Background(), obj.GetName(), metav1.GetOptions{})
 		if err != nil {
 			o, err := dynamicResource.Create(context.Background(), obj, metav1.CreateOptions{})
 			if err != nil {
@@ -278,6 +278,7 @@ func (c *Controller) inject(injector *v1alpha1.NamespaceResourcesInjector, names
 			}
 			log.Infof("Resource %s/%s in namespace %s from injector %s created", o.GetKind(), o.GetName(), o.GetNamespace(), injector.GetName())
 		} else {
+			obj.SetResourceVersion(current.GetResourceVersion())
 			o, err := dynamicResource.Update(context.Background(), obj, metav1.UpdateOptions{})
 			if err != nil {
 				return err
