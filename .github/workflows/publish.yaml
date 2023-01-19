@@ -7,7 +7,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
     - name: Push
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: elgohr/Publish-Docker-Github-Action@v5
       with:
         name: blakelead/nsinjector-controller
         username: ${{ secrets.DOCKER_USERNAME }}
